@@ -29,10 +29,10 @@ export default function DashjsVideoPlayer() {
         console.log(videoBitrates);
         setBitrates(
           videoBitrates.map((b: any) => ({
-            id: b.id ?? b.index, // 這兩個欄位都存在，可以擇一
-            bitrate: b.bandwidth, // 使用 bandwidth （bitrate）
-            height: b.height, // 影片高度
-            width: b.width, // 影片寬度（如果需要）
+            id: b.id ?? b.index,
+            bitrate: b.bandwidth,
+            height: b.height,
+            width: b.width,
           }))
         );
       });
