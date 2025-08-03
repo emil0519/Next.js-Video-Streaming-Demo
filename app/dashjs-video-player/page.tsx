@@ -26,7 +26,6 @@ export default function DashjsVideoPlayer() {
 
       player.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
         const videoBitrates = player.getRepresentationsByType("video");
-        console.log(videoBitrates);
         setBitrates(
           videoBitrates.map((b: any) => ({
             id: b.id ?? b.index,
@@ -34,6 +33,10 @@ export default function DashjsVideoPlayer() {
             height: b.height,
             width: b.width,
           }))
+        );
+        setSelectedQuality(
+          playerRef.current.getCurrentRepresentationForType("video")
+            .absoluteIndex
         );
       });
 
@@ -53,7 +56,6 @@ export default function DashjsVideoPlayer() {
   const onQualityChange = (qualityId: number | "auto") => {
     setSelectedQuality(qualityId);
     if (!playerRef.current) return;
-    console.log("qualityId", qualityId);
     playerRef.current.updateSettings({
       streaming: {
         abr: {
@@ -75,7 +77,10 @@ export default function DashjsVideoPlayer() {
       />
       <div>
         <label className="mr-2">畫質選擇：</label>
-        <select onChange={(e) => onQualityChange(e.target.value)}>
+        <select
+          value={selectedQuality}
+          onChange={(e) => onQualityChange(e.target.value)}
+        >
           {bitrates.map(({ id, height }) => (
             <option key={id} value={id}>
               {height}p
